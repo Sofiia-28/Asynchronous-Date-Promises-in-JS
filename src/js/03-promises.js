@@ -5,6 +5,7 @@ const form = document.querySelector('.form');
 form.addEventListener('submit', onSubmit);
 
 function onSubmit(event) {
+  event.preventDefault()
   let userData = {
     firstDelay: form.elements.delay.value,
     step: form.elements.step.value,
@@ -15,32 +16,27 @@ function onSubmit(event) {
     const currentDelay = Number(userData.firstDelay) + Number(userData.step) * i;
     console.log(currentDelay);
     createPromise(i + 1, currentDelay)
-      .then(({ position, delay }) => {
-        console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
-        alert(`✅ Fulfilled promise ${position} in ${delay}ms`);
+      .then((value) => {
+        console.log("then");
+        Notiflix.Notify.success(value);
       })
-      .catch(({ position, delay }) => {
-        console.log(`❌ Rejected promise ${position} in ${delay}ms`);
-        alert(`❌ Rejected promise ${position} in ${delay}ms`);
+      .catch((error) => {
+        Notiflix.Notify.failure(error);
       });
   }
 }
 
 function createPromise(position, delay) {
   return new Promise((res, rej) => {
+    console.log("aaa22", delay, typeof delay);
     setTimeout(() => {
+      console.log("aaa");
       const shouldResolve = Math.random() > 0.3;
-      userData = {
-        firstDelay: form.elements.delay.value,
-        step: form.elements.step.value,
-        amount: form.elements.amount.value,
-      };
-      console.log(userData);
       if (shouldResolve) {
-        res({position, delay});
+        res(`✅ Fulfilled promise ${position} in ${delay}ms`);
       } else {
-        rej({position, delay});
+        rej(`❌ Rejected promise ${position} in ${delay}ms`);
       }
-    }, userData.firstDelay);
+    }, delay);
   });
 }

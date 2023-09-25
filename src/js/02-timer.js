@@ -15,17 +15,15 @@ let selectedDate;
 
 const options = {
   enableTime: true,
-  enableSeconds: true,
   time_24hr: true,
   defaultDate: currentDate,
-  minDate: currentDate,
   minuteIncrement: 1,
-  allowInput: true,
   onClose(selectedDates) {
     selectedDate = selectedDates[0];
     console.log(selectedDate);
     if (selectedDate <= currentDate) {
       Notiflix.Notify.warning('Please choose a date in the future');
+      startBtn.addAttribute('disabled', '');
     }
     startBtn.removeAttribute('disabled', '');
   },
