@@ -17,7 +17,6 @@ function onSubmit(event) {
     console.log(currentDelay);
     createPromise(i + 1, currentDelay)
       .then((value) => {
-        console.log("then");
         Notiflix.Notify.success(value);
       })
       .catch((error) => {
@@ -28,9 +27,7 @@ function onSubmit(event) {
 
 function createPromise(position, delay) {
   return new Promise((res, rej) => {
-    console.log("aaa22", delay, typeof delay);
     setTimeout(() => {
-      console.log("aaa");
       const shouldResolve = Math.random() > 0.3;
       if (shouldResolve) {
         res(`✅ Fulfilled promise ${position} in ${delay}ms`);
